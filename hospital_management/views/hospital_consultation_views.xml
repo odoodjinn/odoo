@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="consult_menu_action" model="ir.actions.act_window">
+        <field name="name">Consultation</field>
+        <field name="res_model">hospital.consultation</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+    <menuitem id="consult" action="consult_menu_action" parent="hospital_menu"/>
+    <record id="consult_view_tree" model="ir.ui.view">
+        <field name="name">consult.view.tree</field>
+        <field name="model">hospital.consultation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="op_ticket"/>
+                <field name="doctor"/>
+                <field name="patient"/>
+                <field name="date"/>
+                <field name="department"/>
+            </tree>
+        </field>
+    </record>
+    <record id="consult_view_form" model="ir.ui.view">
+        <field name="name">consult.view.form</field>
+        <field name="model">hospital.consultation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="op_ticket"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="patient"/>
+                            <field name="doctor"/>
+                            <field name="department"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descriptions">
+                            <group>
+                                <field name="prescription"/>
+                                <field name="medicine"/>
+                                <field name="patient_history"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

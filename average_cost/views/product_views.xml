@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_action" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="purchase_action" model="ir.actions.act_window">
+        <field name="name">Purchase Orders</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="average_cost_menu" name="Average Cost"/>
+    <menuitem id="purchase_menu" name="Orders" action="purchase_action" parent="average_cost_menu"/>
+    <menuitem id="product_menu" name="Products" action="product_action" parent="average_cost_menu"/>
+
+    <record id="average_cost_product_view" model="ir.ui.view">
+        <field name="name">product.product.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="before">
+                <field name="average_cost" string="Average Cost" widget="monetary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

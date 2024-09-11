@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="department_action" model="ir.actions.act_window">
+    <field name="name">Departments</field>
+    <field name="res_model">hr.department</field>
+    <field name="view_mode">tree,form,kanban</field>
+    </record>
+    <menuitem id="management_menu" name= 'Management' parent="hospital_menu"/>
+    <menuitem id="departments" action="department_action" parent="management_menu"/>
+
+    <record id="department_view_tree" model="ir.ui.view">
+         <field name="name">hospital.management.department.form.inherit</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_tree"/>
+        <field name="arch" type="xml">
+            <field name="manager_id" position="after">
+                <field name="block"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+        <record id="property1" model="property.details">
+            <field name="name">Demo property</field>
+            <field name="street">demo street</field>
+            <field name="rent">101</field>
+            <field name="legal_amount">999</field>
+        </record>
+</odoo>

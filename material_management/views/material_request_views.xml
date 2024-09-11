@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="material_request_action" model="ir.actions.act_window">
+        <field name="name">Material Request</field>
+        <field name="res_model">material.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="material_request_view_form" model="ir.ui.view">
+        <field name="name">material.request.view.form</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button type="object" name="action_submit" string="Submit" class="oe_highlight" groups="material_management.material_group_user" invisible="state != 'draft'"/>
+                    <button type="object" name="action_approve" string="Approve" class="oe_highlight" groups="material_management.material_group_manager" invisible="state != 'approval'"/>
+                    <button type="object" name="action_head_approve" string="Head Approve" class="oe_highlight" groups="material_management.material_group_head" invisible="state != 'secondary_approval'"/>
+                    <button type="object" name="action_head_reject" string="Reject" groups="material_management.material_group_head" invisible="state != 'secondary_approval'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div name="button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="action_purchase_order"
+                                icon="fa-credit-card" invisible="state != 'approved'">
+                            <field string="Purchase Orders" name="order_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_internal_transfer"
+                                icon="fa-exchange" invisible="state != 'approved'">
+                            <field string="Internal Transfers" name="transfer_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state in ['approved', 'rejected']"/>
+                            <field name="date" readonly="state in ['approved', 'rejected']"/>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines">
+                                <tree editable="bottom">
+                                    <field name="material_ids" readonly="state in ['approved', 'rejected']"/>
+                                </tree>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="material_request_view_tree" model="ir.ui.view">
+        <field name="name">material.request.view.tree</field>
+        <field name="model">material.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="material_order_line_view_tree" model="ir.ui.view">
+        <field name="name">material.order.line.view.tree</field>
+        <field name="model">material.order.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="type"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="material_management_menu" name="Material Management"/>
+    <menuitem id="material_request_menu" name="Material Request" action="material_request_action"
+              parent="material_management_menu"/>
+</odoo>

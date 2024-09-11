@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="op_menu_action" model="ir.actions.act_window">
+    <field name="name">OP Ticket</field>
+    <field name="res_model">hospital.op.ticket</field>
+    <field name="view_mode">tree,form,kanban</field>
+    </record>
+    <menuitem id="op_menu" action="op_menu_action" parent="reception_first_level_menu"/>
+    <record id="op_ticket_view_tree" model="ir.ui.view">
+        <field name="name">op.ticket.view.tree</field>
+        <field name="model">hospital.op.ticket</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="token_number"/>
+                <field name="date"/>
+                <field name="doctor"/>
+                <field name="patient"/>
+                <field name="age"/>
+            </tree>
+        </field>
+    </record>
+    <record id="op_ticket_view_form" model="ir.ui.view">
+        <field name="name">op.ticket.view.form</field>
+        <field name="model">hospital.op.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button type="object" name="action_confirm" string="Confirm" invisible="state in 'confirm'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="patient"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="token_number"/>
+                            <field name="date"/>
+                            <field name="doctor"/>
+                            <field name="department"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

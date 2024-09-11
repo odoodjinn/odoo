@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="module_material_category" model="ir.module.category">
+        <field name="name">Material Management</field>
+        <field name="sequence">11</field>
+    </record>
+
+    <record id="material_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_material_category"/>
+    </record>
+
+    <record id="material_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_material_category"/>
+        <field name="implied_ids" eval="[(4, ref('material_group_user'))]"/>
+    </record>
+
+    <record id="material_group_head" model="res.groups">
+        <field name="name">Head</field>
+        <field name="category_id" ref="module_material_category"/>
+    </record>
+
+    <record id="material_rule_user" model="ir.rule">
+        <field name="name">User can only create material requests</field>
+        <field name="model_id" ref="model_material_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('material_group_user'))]"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="perm_read" eval="True"/>
+    </record>
+
+    <record id="material_rule_manager" model="ir.rule">
+        <field name="name">Manager can only read the requests</field>
+        <field name="model_id" ref="model_material_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('material_group_manager'))]"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="perm_read" eval="True"/>
+    </record>
+
+    <record id="material_rule_head" model="ir.rule">
+        <field name="name">Head can only read the requests</field>
+        <field name="model_id" ref="model_material_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('material_group_head'))]"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="perm_read" eval="True"/>
+    </record>
+</odoo>
