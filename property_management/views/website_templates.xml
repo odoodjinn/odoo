@@ -4,7 +4,7 @@
         <t t-call="website.layout">
             <div id="wrap">
                 <div style="text-align:center; font-size: 30px; padding: 15px;">
-                    <b><u>PROPERTY CREATION FORM</u></b>
+                    <b>PROPERTY CREATION FORM</b>
                 </div>
                 <div class="container">
                     <div class="col-md-12">
@@ -72,15 +72,6 @@
                                 <label for="legal_amount">Lease Amount:</label>
                                 <input type="number" class="form-control" name="legal_amount" id="legal_amount"/>
                             </div>
-<!--                            <div class="form-group">-->
-<!--                                <label for="facility_ids">Facilities:</label>-->
-<!--                                <select class="form-control" name="facility_ids" id="facility_ids">-->
-<!--                                    <option value=""/>-->
-<!--                                    <t t-foreach="facility_rec" t-as="facility">-->
-<!--                                        <option t-esc="facility.name" t-att-value="facility.id"/>-->
-<!--                                    </t>-->
-<!--                                </select>-->
-<!--                            </div>-->
                             <div class="form-group">
                                 <label for="description">Description:</label>
                                 <textarea class="form-control" name="description" id="description"/>
@@ -114,9 +105,7 @@
         <t t-call="website.layout">
             <div id="wrap">
                 <div style="text-align:center; font-size: 30px; padding: 15px;">
-                    <b>
-                        <u>RENTAL/LEASE ORDER</u>
-                    </b>
+                    <b>RENTAL/LEASE ORDER</b>
                 </div>
                 <div class="container">
                     <div class="col-md-12">
@@ -151,19 +140,17 @@
                                     <option value="lease">Lease</option>
                                 </select>
                             </div>
-                            <table>
+                            <textarea class="d-none" name="property_ids">
+                            </textarea>
+                            <table class="order_line_table">
                                 <thead>
                                     <tr>
                                         <th>Property</th>
-                                        <th>Owner</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
-                                        <th>Total Days</th>
-                                        <th>Rent/Lease Amount</th>
-                                        <th>Total Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="lines">
                                     <tr class="order_line">
                                         <td>
                                             <select class="form-control" name="property_id" id="property_id">
@@ -174,33 +161,15 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="owner_id" id="owner_id">
-                                                <option value=""/>
-                                                <t t-foreach="partner_rec" t-as="owner">
-                                                    <option t-esc="owner.name" t-att-value="owner.id"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td>
                                             <input type="date" class="form-control" name="start_date" id="start_date" required="true"/>
                                         </td>
                                         <td>
                                             <input type="date" class="form-control" name="end_date" id="end_date" required="true"/>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control" name="total_days" id="total_days"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="rent_lease_amount" id="rent_lease_amount"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="total_amount" id="total_amount"/>
-                                        </td>
-                                        <td>
                                             <button type="button" class="remove_line" id="remove_line"><i class="fa fa-trash"/></button>
                                         </td>
                                     </tr>
-
                                     <tr class="add_extra_order_line d-none">
                                         <td>
                                             <select class="form-control" name="property_id" id="property_id">
@@ -211,27 +180,10 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="owner_id" id="owner_id">
-                                                <option value=""/>
-                                                <t t-foreach="partner_rec" t-as="owner">
-                                                    <option t-esc="owner.name" t-att-value="owner.id"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td>
                                             <input type="date" class="form-control" name="start_date" id="start_date"/>
                                         </td>
                                         <td>
                                             <input type="date" class="form-control" name="end_date" id="end_date"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="total_days" id="total_days"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="rent_lease_amount" id="rent_lease_amount"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" name="total_amount" id="total_amount"/>
                                         </td>
                                         <td>
                                             <button type="button" class="remove_line" id="remove_line"><i class="fa fa-trash"/></button>
@@ -240,11 +192,11 @@
                                 </tbody>
                                 <style type="text/css">table, th, td {text-align:center; padding: 15px;}</style>
                             </table>
-                            <div style="float: right; margin_right: -15px;">
-                                <button type="button" class="add_line" id="add_line"><b>+</b></button>
+                            <div style="font-size: 10px;">
+                                <button type="button" class="add_line" id="add_line"><i class="fa fa-plus form-control"/></button>
                             </div>
                             <div>
-                                <button type="object" name="rental_lease_form_submit" class="btn btn-primary"
+                                <button type="object" name="rental_lease_form_submit" class="custom_create btn btn-primary"
                                         style="margin-top: 10px; margin-bottom: 10px;">Create Order
                                 </button>
                             </div>
@@ -263,6 +215,45 @@
                         <div class="alert alert-success">
                             Order created successfully.
                         </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="rental_lease_web_invoice_template" name="Invoices">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div class="col-md-12">
+                        <h1>Invoices</h1>
+                    </div>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Invoice Date</th>
+                                    <th>State</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="invoice_rec" t-as="invoice">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="invoice.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="invoice['invoice_date']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="invoice['state']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <style type="text/css">table, th, td {text-align:left; padding: 20px;}</style>
+                        </table>
                     </div>
                 </div>
             </div>

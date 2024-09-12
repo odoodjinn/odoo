@@ -7,9 +7,11 @@ class PropertyOrderLine(models.Model):
     _name = 'rental.order.line'
     _description = 'Rental Order Line'
 
-    property_id = fields.Many2one('property.details', string='Property', ondelete='cascade')
+    property_id = fields.Many2one('property.details',
+                                  string='Property',
+                                  ondelete='cascade')
     rental_id = fields.Many2one('rental.lease.management')
-    owner_id = fields.Many2one('res.partner', string='Owner')
+    owner_id = fields.Many2one('res.partner', string='Owner', compute='_onchange_property_id')
     rent_lease_amount = fields.Integer(string='Rent/Lease Amount')
     type = fields.Selection(related='rental_id.type', string='Type')
     start_date = fields.Datetime(required=True, string='Period')
@@ -49,7 +51,4 @@ class PropertyOrderLine(models.Model):
             self.property_id.rent = self.rent_lease_amount
         else:
             self.property_id.legal_amount = self.rent_lease_amount
-
-
-
 

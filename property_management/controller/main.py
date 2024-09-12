@@ -47,12 +47,10 @@ class WebFormController(Controller):
         state_rec = request.env['res.country.state'].sudo().search([])
         country_rec = request.env['res.country'].sudo().search([])
         owner_rec = request.env['res.partner'].sudo().search([])
-        facility_rec = request.env['property.facility'].sudo().search([])
         return request.render('property_management.property_web_form_template', {
             "state_rec": state_rec,
             "country_rec": country_rec,
             "owner_rec": owner_rec,
-            "facility_rec": facility_rec,
         })
 
     @route('/property_details/submit', type='http', auth='public', website=True, methods=['GET', 'POST'])
@@ -88,19 +86,21 @@ class WebFormController(Controller):
 
     @route('/management/submit', type='http', auth='public', website=True, methods=['GET', 'POST'])
     def rental_lease_form_submit(self, **post):
-        request.env['rental.lease.management'].create({
+        data = json.loads(post['property_ids'])
+        val = [(0, 0, line) for line in data]
+        values = {
             'tenant_id': post.get('tenant_id'),
             'due_date': post.get('due_date'),
             'company_id': post.get('company_id'),
             'type': post.get('type'),
-            'property_ids':[fields.Command.create({
-                'property_id': post.get('property_id'),
-                'owner_id': post.get('owner_id'),
-                'start_date': post.get('start_date'),
-                'end_date': post.get('end_date'),
-                'total_days': post.get('total_days'),
-                'rent_lease_amount': post.get('rent_lease_amount'),
-                'total_amount': post.get('total_amount'),
-            })]
-        })
+            'property_ids': val
+        }
+        rental_id = request.env['rental.lease.management'].sudo().create(values)
         return request.render('property_management.rental_lease_web_form_success')
+
+    @route('/management/invoice', type='http', auth='public', website=True)
+    def rental_lease_invoice(self, **kwargs):
+        invoice_rec = request.env['account.move'].sudo().search([('rental_lease_id', '!=', False)])
+        return request.render('property_management.rental_lease_web_invoice_template', {
+            'invoice_rec': invoice_rec,
+        })

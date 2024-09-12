@@ -68,7 +68,6 @@ class RentalLeaseManagement(models.Model):
     def action_approve(self):
         """Button to approve the rental/lease order requests from user"""
         self.state = 'draft'
-        print('hi')
 
     def action_confirm(self):
         """Function to set the attachment as mandatory on confirm button and change the state to Confirmed"""

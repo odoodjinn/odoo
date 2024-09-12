@@ -6,4 +6,16 @@
             <field name="rent">101</field>
             <field name="legal_amount">999</field>
         </record>
+        <record id="property2" model="property.details">
+            <field name="name">Car</field>
+            <field name="street">car street</field>
+            <field name="rent">500</field>
+            <field name="legal_amount">5000</field>
+        </record>
+    <record id="property3" model="property.details">
+            <field name="name">Bike</field>
+            <field name="street">bike street</field>
+            <field name="rent">200</field>
+            <field name="legal_amount">2000</field>
+        </record>
 </odoo>
