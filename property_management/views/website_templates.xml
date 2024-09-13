@@ -57,18 +57,18 @@
                                 </select>
                             </div>
                             <div class="form-group" style="margin-top: 15px; margin-bottom: 15px;">
-                                <label for="can_be_sold">Can Be Sold: </label>
+                                <label for="can_be_sold">Can Be Sold:</label>
                                 <input type="checkbox" name="can_be_sold" id="can_be_sold"/>
                             </div>
                             <div class="form-group">
                                 <label for="rent">Rent Amount:</label>
                                 <input type="number" class="form-control" name="rent" id="rent"/>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="built_date">Built Date:</label>
                                 <input type="date" class="form-control" name="built_date" id="built_date"/>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="legal_amount">Lease Amount:</label>
                                 <input type="number" class="form-control" name="legal_amount" id="legal_amount"/>
                             </div>
@@ -78,7 +78,8 @@
                             </div>
                             <div>
                                 <button type="object" name="property_form_submit" class="btn btn-primary"
-                                        style="margin-top: 10px; margin-bottom: 10px;">Create</button>
+                                        style="margin-top: 10px; margin-bottom: 10px;">Create
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -109,96 +110,110 @@
                 </div>
                 <div class="container">
                     <div class="col-md-12">
-                        <form action="/management/submit">
-                            <div class="form-group">
-                                <label for="tenant_id">Tenant:</label>
-                                <select class="form-control" name="tenant_id" id="tenant_id" >
-                                    <option value=""/>
-                                    <t t-foreach="partner_rec" t-as="tenant">
-                                        <option t-esc="tenant.name" t-att-value="tenant.id"/>
-                                    </t>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="due_date">Due Date:</label>
-                                <input type="date" class="form-control" name="due_date" id="due_date" required="true"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="company_id">Company:</label>
-                                <select class="form-control" name="company_id" id="company_id">
-                                    <option value=""/>
-                                    <t t-foreach="company_rec" t-as="company">
-                                        <option t-esc="company.name" t-att-value="company.id"/>
-                                    </t>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Type:</label>
-                                <select class="form-control" name="type" id="type">
-                                    <option value=""/>
-                                    <option value="rent">Rent</option>
-                                    <option value="lease">Lease</option>
-                                </select>
-                            </div>
-                            <textarea class="d-none" name="property_ids">
-                            </textarea>
-                            <table class="order_line_table">
-                                <thead>
-                                    <tr>
-                                        <th>Property</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="lines">
-                                    <tr class="order_line">
-                                        <td>
-                                            <select class="form-control" name="property_id" id="property_id">
-                                                <option value=""/>
-                                                <t t-foreach="property_rec" t-as="property">
-                                                    <option t-esc="property.name" t-att-value="property.id"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" name="start_date" id="start_date" required="true"/>
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" name="end_date" id="end_date" required="true"/>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="remove_line" id="remove_line"><i class="fa fa-trash"/></button>
-                                        </td>
-                                    </tr>
-                                    <tr class="add_extra_order_line d-none">
-                                        <td>
-                                            <select class="form-control" name="property_id" id="property_id">
-                                                <option value=""/>
-                                                <t t-foreach="property_rec" t-as="property">
-                                                    <option t-esc="property.name" t-att-value="property.id"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" name="start_date" id="start_date"/>
-                                        </td>
-                                        <td>
-                                            <input type="date" class="form-control" name="end_date" id="end_date"/>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="remove_line" id="remove_line"><i class="fa fa-trash"/></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <style type="text/css">table, th, td {text-align:center; padding: 15px;}</style>
-                            </table>
-                            <div style="font-size: 10px;">
-                                <button type="button" class="add_line" id="add_line"><i class="fa fa-plus form-control"/></button>
-                            </div>
-                            <div>
-                                <button type="object" name="rental_lease_form_submit" class="custom_create btn btn-primary"
-                                        style="margin-top: 10px; margin-bottom: 10px;">Create Order
-                                </button>
+                        <form method="post" action="/management/submit">
+                            <div id="rental_lease_web_form_template">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                                <div class="form-group">
+                                    <label for="tenant_id">Tenant:</label>
+                                    <select class="form-control" name="tenant_id" id="tenant_id">
+                                        <option value=""/>
+                                        <t t-foreach="partner_rec" t-as="tenant">
+                                            <option t-esc="tenant.name" t-att-value="tenant.id"/>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="due_date">Due Date:</label>
+                                    <input type="date" class="form-control" name="due_date" id="due_date"
+                                           required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="company_id">Company:</label>
+                                    <select class="form-control" name="company_id" id="company_id">
+                                        <option value=""/>
+                                        <t t-foreach="company_rec" t-as="company">
+                                            <option t-esc="company.name" t-att-value="company.id"/>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">Type:</label>
+                                    <select class="form-control" name="type" id="type">
+                                        <option value=""/>
+                                        <option value="rent">Rent</option>
+                                        <option value="lease">Lease</option>
+                                    </select>
+                                </div>
+                                <table class="order_line_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Property</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="lines">
+                                        <tr class="order_line">
+                                            <td>
+                                                <select class="form-control" name="property_id" id="property_id">
+                                                    <option value=""/>
+                                                    <t t-foreach="property_rec" t-as="property">
+                                                        <option t-esc="property.name" t-att-value="property.id"/>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control" name="start_date"
+                                                       id="start_date" required="true"/>
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control" name="end_date" id="end_date"
+                                                       required="true"/>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="remove_line" id="remove_line">
+                                                    <i class="fa fa-trash"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr class="add_extra_order_line d-none">
+                                            <td>
+                                                <select class="form-control" name="property_id" id="property_id">
+                                                    <option value=""/>
+                                                    <t t-foreach="property_rec" t-as="property">
+                                                        <option t-esc="property.name" t-att-value="property.id"/>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control" name="start_date"
+                                                       id="start_date"/>
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control" name="end_date" id="end_date"/>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="remove_line" id="remove_line">
+                                                    <i class="fa fa-trash"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <style type="text/css">table, th, td {text-align:center; padding: 15px;}</style>
+                                </table>
+                                <div style="font-size: 10px;">
+                                    <button type="button" class="add_line" id="add_line">
+                                        <i class="fa fa-plus form-control"/>
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="button" class="custom_create btn btn-primary"
+                                            style="margin-top: 10px; margin-bottom: 10px;">Create Orders
+                                    </button>
+<!--                                    <button type="button" class="custom_complete btn btn-primary"-->
+<!--                                            style="margin-top: 10px; margin-bottom: 10px;">Complete</button>-->
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -207,7 +222,7 @@
         </t>
     </template>
 
-    <template id="rental_lease_web_form_success" name="Rental/Lease Form Successfully Submitted">
+    <template id="rental_lease_web_form_success" name="Rental/Lease Form Successfully Submitted"    >
         <t t-call="website.layout">
             <div id="wrap">
                 <div class="container">

@@ -2,6 +2,7 @@
 
 import json
 from odoo import fields, http
+from odoo.addons.test_impex.tests.test_load import values
 from odoo.http import content_disposition, request, Controller, route
 from odoo.http import serialize_exception as _serialize_exception
 from odoo.tools import html_escape
@@ -84,19 +85,19 @@ class WebFormController(Controller):
             'company_rec': company_rec,
         })
 
-    @route('/management/submit', type='http', auth='public', website=True, methods=['GET', 'POST'])
-    def rental_lease_form_submit(self, **post):
-        data = json.loads(post['property_ids'])
-        val = [(0, 0, line) for line in data]
+    @route('/management/submit', type='json', auth='public', website=True, methods=['GET', 'POST'])
+    def rental_lease_website_menu(self, **kw):
+        data = kw.get('order_line_list')
+        lines = [(0, 0, line) for line in data]
         values = {
-            'tenant_id': post.get('tenant_id'),
-            'due_date': post.get('due_date'),
-            'company_id': post.get('company_id'),
-            'type': post.get('type'),
-            'property_ids': val
-        }
-        rental_id = request.env['rental.lease.management'].sudo().create(values)
-        return request.render('property_management.rental_lease_web_form_success')
+                'tenant_id': kw.get('tenant_id'),
+                'due_date': kw.get('due_date'),
+                'company_id': kw.get('company_id'),
+                'type': kw.get('type'),
+                'property_ids': lines,
+            }
+        request.env['rental.lease.management'].sudo().create(values)
+        return True
 
     @route('/management/invoice', type='http', auth='public', website=True)
     def rental_lease_invoice(self, **kwargs):
