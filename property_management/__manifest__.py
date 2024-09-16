@@ -19,6 +19,7 @@
         'report/ir_actions_report.xml',
         'report/property_rental_report.xml',
         'views/website_templates.xml',
+        'views/snippets.xml'
         'data/property_website_menu.xml',
         'views/property_menus.xml',
     ],
@@ -27,7 +28,8 @@
             'property_management/static/src/js/action_manager.js',
         ],
         'web.assets_frontend': [
-            'property_management/static/src/js/custom.js',
+            'property_management/static/src/js/property_rental_lease_web_form.js',
+            'property_management/static/src/xml/home_templates.xml',
         ],
     },
     'installable': True,

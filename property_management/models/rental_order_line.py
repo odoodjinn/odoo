@@ -7,9 +7,7 @@ class PropertyOrderLine(models.Model):
     _name = 'rental.order.line'
     _description = 'Rental Order Line'
 
-    property_id = fields.Many2one('property.details',
-                                  string='Property',
-                                  ondelete='cascade')
+    property_id = fields.Many2one('property.details', string='Property', required=True, ondelete='cascade')
     rental_id = fields.Many2one('rental.lease.management')
     owner_id = fields.Many2one('res.partner', string='Owner', compute='_compute_amount')
     rent_lease_amount = fields.Integer(string='Rent/Lease Amount', compute='_compute_amount')

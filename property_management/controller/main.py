@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import json
-from odoo import fields, http
+from odoo import http
 from odoo.addons.test_impex.tests.test_load import values
+from odoo.exceptions import ValidationError
 from odoo.http import content_disposition, request, Controller, route
 from odoo.http import serialize_exception as _serialize_exception
 from odoo.tools import html_escape
@@ -43,8 +44,10 @@ class XLSXReportController(http.Controller):
 
 
 class WebFormController(Controller):
+    """Website form handling controller class"""
     @route('/property_details', type='http', auth='public', website=True)
     def property_form(self, **kwargs):
+        """Property Creation form with template"""
         state_rec = request.env['res.country.state'].sudo().search([])
         country_rec = request.env['res.country'].sudo().search([])
         owner_rec = request.env['res.partner'].sudo().search([])
@@ -56,6 +59,7 @@ class WebFormController(Controller):
 
     @route('/property_details/submit', type='http', auth='public', website=True, methods=['GET', 'POST'])
     def property_form_submit(self, **post):
+        """Property creation on submission of form"""
         request.env['property.details'].sudo().create({
                     'name': post.get('name'),
                     'street': post.get('street'),
@@ -76,6 +80,7 @@ class WebFormController(Controller):
 
     @route('/management', type='http', auth='public', website=True)
     def rental_lease_form(self, **kwargs):
+        """Rental/Lease record creation form with template"""
         partner_rec = request.env['res.partner'].sudo().search([])
         property_rec = request.env['property.details'].sudo().search([])
         company_rec = request.env['res.company'].sudo().search([])
@@ -85,23 +90,38 @@ class WebFormController(Controller):
             'company_rec': company_rec,
         })
 
-    @route('/management/submit', type='json', auth='public', website=True, methods=['GET', 'POST'])
+    @route('/management/submit', type='json', auth='public', website=True, methods=['POST'])
     def rental_lease_website_menu(self, **kw):
+        """Rental/Lease record submission on button click and fetching values through js code"""
         data = kw.get('order_line_list')
         lines = [(0, 0, line) for line in data]
-        values = {
+        request.env['rental.lease.management'].sudo().create({
                 'tenant_id': kw.get('tenant_id'),
                 'due_date': kw.get('due_date'),
                 'company_id': kw.get('company_id'),
                 'type': kw.get('type'),
                 'property_ids': lines,
-            }
-        request.env['rental.lease.management'].sudo().create(values)
+            })
         return True
 
     @route('/management/invoice', type='http', auth='public', website=True)
     def rental_lease_invoice(self, **kwargs):
+        """Displaying invoice details created through rental/lease records"""
         invoice_rec = request.env['account.move'].sudo().search([('rental_lease_id', '!=', False)])
+        state_dict = dict(request.env['account.move']._fields['state'].selection)
         return request.render('property_management.rental_lease_web_invoice_template', {
             'invoice_rec': invoice_rec,
+            'state_dict': state_dict,
         })
+
+class DynamicSnippets(http.Controller):
+   """This class is for the getting values for dynamic product snippets
+      """
+   @http.route('/top_properties', type='json', auth='public')
+   def top_property(self):
+       """Function for getting the current website,top properties"""
+       current_website = request.env['website'].sudo().get_current_website().id
+       property = request.env['property.details'].sudo().search([])
+       return request
+
+
