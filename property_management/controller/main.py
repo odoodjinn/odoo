@@ -114,14 +114,27 @@ class WebFormController(Controller):
             'state_dict': state_dict,
         })
 
-class DynamicSnippets(http.Controller):
+class PropertySnippets(http.Controller):
    """This class is for the getting values for dynamic product snippets
       """
-   @http.route('/top_properties', type='json', auth='public')
-   def top_property(self):
-       """Function for getting the current website,top properties"""
-       current_website = request.env['website'].sudo().get_current_website().id
-       property = request.env['property.details'].sudo().search([])
-       return request
+   @http.route(['/top_properties'], type='json', auth='public', website=True, methods=['POST'])
+   def all_properties(self):
+       """Function for getting top properties"""
+       # property_list = request.env['property.details'].sudo().search_read([], ['name', 'image_1920', 'id'], limit=10)
+       property_items = request.env['property.details'].search([], order='create_date desc')
+       property_data_list = []
+       for rec in property_items:
+           property_data = {
+               'property': rec.name,
+               'price': rec.rent,
+               'image': rec.image_1920,
+           }
+           property_data_list.append(property_data)
+       data_list = {
+           'data': property_data_list
+       }
+       res = http.Response(template='property_management.property_list',
+                          qcontext=data_list)
+       return res.render()
 
 
