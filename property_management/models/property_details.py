@@ -47,7 +47,7 @@ class PropertyDetails(models.Model):
         """To compute the count of records in Rental or Lease Management"""
         for record in self:
             record.rent_lease_count = self.env['rental.lease.management'].search_count(
-                [('property_ids.property_id', '=', self.id)])
+                [('property_ids.property_id', '=', record.id)])
 
 
 

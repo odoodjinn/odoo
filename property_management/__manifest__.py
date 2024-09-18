@@ -3,7 +3,7 @@
 {
     'name': 'Property Management',
     'version': '17.0.1.0.0',
-    'depends': ['base', 'mail', 'account', 'web', 'website'],
+    'depends': ['base', 'mail', 'account', 'web'],
     'data': [
         'security/property_security.xml',
         'security/ir.model.access.csv',
@@ -20,7 +20,7 @@
         'report/property_rental_report.xml',
         'views/website_templates.xml',
         'views/snippets.xml',
-        # 'views/dynamic_snippet_template.xml',
+        'views/home_templates.xml',
         'data/property_website_menu.xml',
         'views/property_menus.xml',
     ],
@@ -30,9 +30,8 @@
         ],
         'web.assets_frontend': [
             'property_management/static/src/js/property_rental_lease_web_form.js',
-            'property_management/static/src/js/property_snippet.js',
             'property_management/static/src/xml/property_snippet_template.xml',
-            'property_management/static/src/xml/home_templates.xml',
+            'property_management/static/src/js/property_snippet.js',
         ],
     },
     'installable': True,

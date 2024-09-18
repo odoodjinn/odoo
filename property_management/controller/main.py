@@ -120,21 +120,15 @@ class PropertySnippets(http.Controller):
    @http.route(['/top_properties'], type='json', auth='public', website=True, methods=['POST'])
    def all_properties(self):
        """Function for getting top properties"""
-       # property_list = request.env['property.details'].sudo().search_read([], ['name', 'image_1920', 'id'], limit=10)
-       property_items = request.env['property.details'].search([], order='create_date desc')
-       property_data_list = []
-       for rec in property_items:
-           property_data = {
-               'property': rec.name,
-               'price': rec.rent,
-               'image': rec.image_1920,
-           }
-           property_data_list.append(property_data)
-       data_list = {
-           'data': property_data_list
+       property_items = request.env['property.details'].search_read([], order='create_date desc')
+       property_values = {
+           'property_items': property_items,
        }
-       res = http.Response(template='property_management.property_list',
-                          qcontext=data_list)
-       return res.render()
+       return property_values
 
-
+   @route('/property/<int:id>', type='http', auth='public', website=True)
+   def property_land(self, id):
+       property_vals = request.env['property.details'].browse(id)
+       return request.render('property_management.property_land_template', {
+           'property_vals': property_vals,
+       })

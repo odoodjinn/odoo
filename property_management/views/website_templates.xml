@@ -269,4 +269,53 @@
             </div>
         </t>
     </template>
+
+    <template id="property_land_template" name="Land Template">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div class="col-md-12">
+                        <h4 style="text-align: center; padding: 10px;"><t t-esc="property_vals.name"/></h4>
+                    </div>
+                    <div>
+                        <table style="margin: 10px auto;">
+                            <thead>
+                                <tr>
+                                    <th>Owner</th>
+                                    <th>Rent Amount</th>
+                                    <th>Lease Amount</th>
+                                    <th>Built Date</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="property_vals" t-as="property">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="property['owner_id'].name"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <t t-esc="property['rent']"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <t t-esc="property['legal_amount']"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <t t-esc="property['built_date']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="property['street']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <style type="text/css">table, th, td {text-align:left; padding: 20px;
+                                border: 1px solid;}
+                            </style>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
 </odoo>
