@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="portal_my_mo" name="Manufacturing Orders"
+              customize_show="True" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/website_mo/static/src/img/icon.png'"/>
+                <t t-set="title">Manufacturing Orders</t>
+                <t t-set="url" t-value="'/my/mo'"/>
+                <t t-set="text">Follow your Manufacturing Orders</t>
+                <t t-set="placeholder_count" t-value="'mo_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="mo_customer_portal_template" name="Manufacturing Orders">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Manufacturing Order #</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Scheduled Date</th>
+                        <th>Responsible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="mo_rec" t-as="mo">
+                        <tr>
+                            <td>
+                                <t t-esc="mo.name"/>
+                            </td>
+                            <td>
+                                <t t-esc="mo['product_id'].name"/>
+                            </td>
+                            <td>
+                                <t t-esc="mo.product_qty"/>
+                            </td>
+                            <td>
+                               <t t-esc="mo.date_start"/>
+                            </td>
+                            <td>
+                                <t t-esc="mo['user_id'].name"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+        </t>
+    </template>
+</odoo>
