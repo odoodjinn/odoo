@@ -2,9 +2,15 @@
 <templates id="template" xml:space="preserve">
     <t t-inherit="owl_basic.input_box" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[hasclass('InputDiv')]" position="inside">
-            <button t-on-click="demofu">btn</button>
-
+            <button t-on-click="()=> this.demo(1)">add</button>
+            <span><t t-esc="state.value"/></span>
+            <button id="btn2" t-on-click="()=> this.demo(-1)">del</button>
+            <br/>
+            <span>state next value: <t t-esc="state.next_val"/></span>
+            <br/>
+            <button t-on-click="demofu">Click me</button>
+            <button t-on-click="demofunc">useService ORM</button>
+            <button t-on-click="openSaleOrderFrom">useService ACTION</button>
         </xpath>
-
     </t>
 </templates>

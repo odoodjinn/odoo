@@ -2,8 +2,7 @@
 <templates id="template" xml:space="preserve">
     <t t-name="owl_basic.input_box">
         <div class="InputDiv">
-            <input type="text"/>
-            <button id="button" >Button</button>
+            <input type="text" t-ref="InputClickMe"/>
         </div>
     </t>
 </templates>
