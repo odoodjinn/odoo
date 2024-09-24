@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
+    <t t-name="point_of_sale.XButton" t-inherit="point_of_sale.Orderline"
+       t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('product-price')]" position="after">
+            <div t-on-click="removeLine" style="margin-left:10px; color:red;">
+                <span><strong>X</strong></span>
+            </div>
+        </xpath>
+    </t>
     <t t-name="point_of_sale.DeleteButton">
-        <button class="control-button btn btn-light rounded-0 fw-bolder" t-on-click="() => this.onClick()"
-                style="color:red">
-            <i class="fa fa-eraser" role="img" aria-label="Delete Lines" title="Delete Lines"/>
-            <span> </span>
-            <span>Delete Lines</span>
+        <button class="control-button btn btn-light rounded-0 fw-bolder" t-on-click="removeOrder"
+                style="color:red"><i class="fa fa-eraser"/>
+            <span> Delete Lines</span>
         </button>
     </t>
 </templates>
