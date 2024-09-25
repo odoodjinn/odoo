@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="point_of_sale.video_icon" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('product-img')]" position="before">
+            <div class="video_icon_tag" t-on-click="videoPreview">
+                <t t-log="this"/>
+                <t t-if="this.props.video_url">
+                    <i class="fa fa-video-camera"/>
+                </t>
+            </div>
+        </xpath>
+    </t>
+    <t t-name="pos_product_video.ProductsWidget" t-inherit="point_of_sale.ProductsWidget" t-inherit-mode="extension">
+       <xpath expr="//ProductCard" position="attributes">
+           <attribute name="video_url">product.video_url</attribute>
+       </xpath>
+   </t>
+    <t t-name="pos_product_video.VideoPopup">
+        <div class="popup">
+        <!-- Modal Header -->
+            <div class="modal-header justify-content-center">
+                <h2 class="modal-title">
+                   <t t-esc="props.title"/>
+                </h2>
+             </div>
+            <!-- Modal Body -->
+            <div class="modal-body custom-form-view">
+                <iframe width="420" height="315" t-att-src="this.props.body"/>
+                <!-- Modal Footer -->
+                <div class="footer footer-flex modal-footer justify-content-end">
+                    <div class="button cancel btn btn-lg btn-primary"
+                         t-on-click="cancel">
+                       <t t-esc="props.closePopup"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
