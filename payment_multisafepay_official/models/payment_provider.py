@@ -2,9 +2,7 @@
 
 import logging
 import pprint
-
 import requests
-from werkzeug import urls
 
 from odoo import _, fields, models, service
 from odoo.exceptions import ValidationError
@@ -16,37 +14,18 @@ class PaymentProvider(models.Model):
     _inherit = 'payment.provider'
 
     code = fields.Selection(
-        selection_add=[("multisafepay", "MultiSafepay")],
+        selection_add=[("multisafepay", "MultiSafePay")],
         ondelete={"multisafepay": "set default"},
     )
-    multisafepay_api_key = fields.Char('MultiSafepay test api key', size=40)
+    multisafepay_api_key = fields.Char('MultiSafePay test api key', size=40)
 
-    def _multisafepay_make_request(self, endpoint, data=None, method='POST'):
-        """ Make a request at mollie endpoint.
-
-        Note: self.ensure_one()
-
-        :param str endpoint: The endpoint to be reached by the request
-        :param dict data: The payload of the request
-        :param str method: The HTTP method of the request
-        :return The JSON-formatted content of the response
-        :rtype: dict
-        :raise: ValidationError if an HTTP error occurs
-        """
+    def _multisafepay_make_request(self, data=None, method='POST'):
         self.ensure_one()
-        endpoint = f'/v2/{endpoint.strip("/")}'
-        url = urls.url_join('https://testapi.multisafepay.com/v1/json', endpoint)
-
-        odoo_version = service.common.exp_version()['server_version']
-        module_version = self.env.ref('base.module_payment_multisafepay_official').installed_version
+        url = f'https://testapi.multisafepay.com/v1/json/orders?api_key={self.multisafepay_api_key}'
         headers = {
-            "Accept": "application/json",
-            "Authorization": f'Bearer {self.multisafepay_api_key}',
-            "Content-Type": "application/json",
-            # See https://docs.mollie.com/integration-partners/user-agent-strings
-            "User-Agent": f'Odoo/{odoo_version} MultiSafePayNativeOdoo/{module_version}',
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
         }
-
         try:
             response = requests.request(method, url, json=data, headers=headers, timeout=60)
             try:
@@ -56,7 +35,7 @@ class PaymentProvider(models.Model):
                     "Invalid API request at %s with data:\n%s", url, pprint.pformat(data)
                 )
                 raise ValidationError(
-                    "Mollie: " + _(
+                    "MultiSafePay: " + _(
                         "The communication with the API failed. Mollie gave us the following "
                         "information: %s", response.json().get('detail', '')
                     ))

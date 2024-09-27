@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="redirect_form">
+    <template id="multisafe_redirect_form">
         <form t-att-action="api_url" method="get">
             <t t-foreach="url_params" t-as="param">
                 <input type="hidden" t-att-name="param" t-att-value="url_params[param]" />

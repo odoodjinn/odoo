@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<odoo noupdate="1">
+<odoo>
     <record id="payment_provider_multisafepay" model="payment.provider">
         <field name="name">MultiSafePay</field>
         <field name="code">multisafepay</field>
@@ -8,7 +8,6 @@
                          ref('payment.payment_method_ach_direct_debit'),
                          ref('payment.payment_method_card'),
                      ])]"/>
-        <field name="redirect_form_view_id" ref="redirect_form"/>
+        <field name="redirect_form_view_id" ref="multisafe_redirect_form"/>
     </record>
-
 </odoo>
