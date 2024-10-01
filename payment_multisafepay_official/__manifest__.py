@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 {
     'name': 'MultiSafePay payments',
     'description': '''
@@ -21,4 +22,3 @@
     'installable': True,
     'application': True,
 }
-# -*- coding: utf-8 -*-

@@ -21,7 +21,6 @@ class MultiSafePayController(http.Controller):
         :param dict data: The notification data (only `id`) and the transaction reference (`ref`)
                           embedded in the return URL
         """
-        print(data, 'data controller')
         _logger.info("handling redirection from MultiSafePay with data:\n%s", pprint.pformat(data))
         request.env['payment.transaction'].sudo()._handle_notification_data('multisafepay', data)
         return request.redirect('/payment/status')

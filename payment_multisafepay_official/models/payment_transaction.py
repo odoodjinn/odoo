@@ -2,14 +2,12 @@
 
 import logging
 import pprint
-from ast import parse
 
 from werkzeug import urls
 
 from odoo import _, models
 from odoo.exceptions import ValidationError
 from ..controllers.main import MultiSafePayController
-
 
 _logger = logging.getLogger(__name__)
 
@@ -25,14 +23,10 @@ class PaymentTransaction(models.Model):
         payload = self._multisafepay_prepare_payment_request_payload()
         _logger.info("sending '/payments' request for link creation:\n%s", pprint.pformat(payload))
         payment_data = self.provider_id._multisafepay_make_request(data=payload, method='POST')
-        print(payment_data, '>>payment data')
         self.provider_reference = payment_data['data']['order_id']
         checkout_url = payment_data['data']['payment_url']
-        print(checkout_url, '>>checkout url')
         parsed_url = urls.url_parse(checkout_url)
         url_params = urls.url_decode(parsed_url.query)
-        print(parsed_url, '>>parsed url')
-        print(url_params, '>>decode url')
         return {'api_url': checkout_url, 'url_params': url_params}
 
     def _multisafepay_prepare_payment_request_payload(self):
@@ -40,7 +34,7 @@ class PaymentTransaction(models.Model):
         user_lang = self.env.context.get('lang')
         base_url = self.provider_id.get_base_url()
         redirect_url = urls.url_join(base_url, MultiSafePayController._return_url)
-        print(self.search_read([], limit=1), '>>self search_read')
+        partner_name = self.partner_name.split(" ", 1)
         return {
           "type": "redirect",
           "order_id": f"my-order-id-{self.id}",
@@ -55,7 +49,8 @@ class PaymentTransaction(models.Model):
           "customer": {
             "locale": user_lang,
             "ip_address": "123.123.123.123",
-            "first_name": self.partner_name,
+            "first_name": partner_name[0],
+            "last_name": partner_name[1],
             "company_name": self.company_id.name,
             "address1": self.partner_address,
             "zip_code": self.partner_zip,
@@ -63,8 +58,6 @@ class PaymentTransaction(models.Model):
             "country": self.partner_country_id.name,
             "phone": self.partner_phone,
             "email": self.partner_email,
-            "referrer": "https://example.com",
-            "user_agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36"
             }
         }
 
@@ -101,13 +94,9 @@ class PaymentTransaction(models.Model):
         super()._process_notification_data(notification_data)
         if self.provider_code != 'multisafepay':
             return
-        print(notification_data, '>>>notification data')
         transaction_id = notification_data['transactionid']
         payment_data = self.provider_id._multisafepay_make_request(data=transaction_id, method='GET')
         payment_status = payment_data['data']['status']
-        print(payment_data, '>>Dataaa')
-        print(payment_status, '>>status')
-
         if payment_status in ['initialized', 'uncleared']:
             self._set_pending()
         elif payment_status in ['completed', 'shipped']:
