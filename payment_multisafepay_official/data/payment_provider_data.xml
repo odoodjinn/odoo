@@ -6,7 +6,7 @@
         <field name="image_128" type="base64" file="payment_multisafepay_official/static/description/multisafepay_icon.png"/>
         <field name="module_id" ref="base.module_payment_multisafepay_official"/>
         <field name="payment_method_ids" eval="[Command.set([
-                         ref('payment.payment_method_card'),
+                         ref('payment_multisafepay_official.payment_method_multisafepay'),
                      ])]"/>
         <field name="redirect_form_view_id" ref="multisafe_redirect_form"/>
     </record>

@@ -18,11 +18,16 @@ class PaymentProvider(models.Model):
         self.ensure_one()
         if method == 'POST':
             url = f'https://testapi.multisafepay.com/v1/json/orders?api_key={self.multisafepay_api_key}'
-            headers = {'Content-Type': 'application/json', 'accept': 'application/json', }
+            headers = {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+            }
             response = requests.request(method, url, json=data, headers=headers, timeout=60)
             return response.json()
         else:
             url = f'https://testapi.multisafepay.com/v1/json/orders/{data}/?api_key={self.multisafepay_api_key}'
-            headers = {'accept': 'application/json', }
+            headers = {
+                'accept': 'application/json',
+            }
             response = requests.request(method, url, headers=headers, timeout=60)
             return response.json()

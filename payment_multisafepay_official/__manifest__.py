@@ -15,8 +15,9 @@
     'depends': ['payment', 'sale', 'delivery'],
     'data': [
         'data/payment_multisafepay_type.xml',
-        'data/payment_provider_data.xml',
+        'data/payment_method.xml',
         'views/payment_multisafepay_templates.xml',
+        'data/payment_provider_data.xml',
         'views/payment_provider_views.xml',
     ],
     'installable': True,
