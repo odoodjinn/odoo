@@ -10,14 +10,15 @@
                        statusbar_visible="draft,sent,sale"/>
             </xpath>
             <xpath expr="//button[@name='action_quotation_send']" position="before">
-                <field name="current_user"/>
-                <field name="primary_user"/>
+                <field name="primary_user_id" invisible="1"/>
+                <field name="secondary_user_id" invisible="1"/>
+                <field name="primary_val" invisible="1"/>
+                <field name="secondary_val" invisible="1"/>
                 <button name="action_approve" string="Approve" class="oe_highlight" type="object"
-                        invisible="uid != 'primary_user'"/>
-                <button name="action_second_approve" string="Second Approve" class="oe_highlight" type="object"
-                        groups="sales_team.group_sale_manager" invisible="state != 'secondary_approval'"/>
+                    invisible="primary_val != '1' or state != 'to_approve'"/>
+                <button name="action_second_approve" string="Second Approve" class="oe_highlight"
+                        type="object" invisible="secondary_val != '1' or state != 'secondary_approval'"/>
             </xpath>
         </field>
     </record>
 </odoo>
-<!--groups="sales_team.group_sale_salesman_all_leads" invisible="state != 'to_approve'"-->

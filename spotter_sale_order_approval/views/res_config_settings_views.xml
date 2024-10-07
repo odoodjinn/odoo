@@ -8,10 +8,10 @@
             <xpath expr="//block[@name='quotation_order_setting_container']" position="inside">
                     <setting id="primary_approval">
                         <div class="content-group">
-                            <label for="primary_user"/>
-                            <field name="primary_user"/>
-                            <label for="secondary_user"/>
-                            <field name="secondary_user"/>
+                            <label for="primary_user_id"/>
+                            <field name="primary_user_id"/>
+                            <label for="secondary_user_id"/>
+                            <field name="secondary_user_id"/>
                         </div>
                     </setting>
             </xpath>

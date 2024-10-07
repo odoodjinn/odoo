@@ -18,7 +18,6 @@ patch(InputBox.prototype, {
         useEffect(
             (rec) => {
                 this.state.next_val += rec
-                console.log(rec, 'rec')
             },
             () => [this.state.value]
         )
