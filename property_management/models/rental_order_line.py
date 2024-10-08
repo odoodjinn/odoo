@@ -9,8 +9,8 @@ class PropertyOrderLine(models.Model):
 
     property_id = fields.Many2one('property.details', string='Property', required=True, ondelete='cascade')
     rental_id = fields.Many2one('rental.lease.management')
-    owner_id = fields.Many2one('res.partner', string='Owner', compute='_compute_amount')
-    rent_lease_amount = fields.Integer(string='Rent/Lease Amount', compute='_compute_amount')
+    owner_id = fields.Many2one('res.partner', string='Owner', compute='_compute_amount', store=True)
+    rent_lease_amount = fields.Integer(string='Rent/Lease Amount', compute='_compute_amount', store=True)
     type = fields.Selection(related='rental_id.type', string='Type')
     start_date = fields.Date(required=True, string='Period')
     end_date = fields.Date(required=True, string='End Date')
@@ -37,7 +37,7 @@ class PropertyOrderLine(models.Model):
         """To display the rent or lease amount based on the user selection on Type(selection) field"""
         for rec in self:
             rec.owner_id = rec.property_id.owner_id
-            if rec.type in 'rent':
+            if rec.type == 'rent':
                 rec.rent_lease_amount = rec.property_id.rent
             else:
                 rec.rent_lease_amount = rec.property_id.legal_amount
