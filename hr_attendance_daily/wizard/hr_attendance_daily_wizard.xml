@@ -6,9 +6,9 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="start_date"/>
-<!--                    <field name="end_date"/>-->
-                    <field name="print_by" widget="radio"/>
+                    <field name="print_by" widget="radio" string="Print By"/>
+                    <field name="start_date" invisible="print_by != 'custom'"/>
+                    <field name="end_date" invisible="print_by != 'custom'"/>
                 </group>
                 <footer>
                     <button type="object" name="action_print_report" string="Print PDF" class="btn-primary"/>
