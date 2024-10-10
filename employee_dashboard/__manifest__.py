@@ -7,7 +7,7 @@
     'description': """
         This module displays all the details about employee in the dashboard app.
     """,
-    'depends': ['base', 'hr', 'crm'],
+    'depends': ['base', 'hr'],
     'data': [
         'views/employee_dashboard_views.xml',
     ],

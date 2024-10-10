@@ -9,12 +9,46 @@
                     </h1>
                 </center>
             </div>
-            <div class="row main-section" style="margin-left: 120px;">
-                <!--            Lead Tile-->
-                <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                     style=" overflow: hidden; padding-top: 30px;">
+            <div class="row main-section" style="margin-left: 120px; padding-right: 80px;">
+                <!--       Personal Information Tile-->
+                <div id="personal_info_tile"
+                     style=" overflow: hidden; padding-top: 30px; padding-bottom:30px;"
+                     t-on-click="personalInfoTileClick">
                     <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-                display: flex; justify-content: center;" role="button">
+                        display: flex; justify-content: center;" role="button">
+                        <div class="oh-card-body"
+                             style="padding: 5px 5px; float: left; width: 100%;
+                          height: auto; box-sizing: border-box; margin: 0;">
+                            <div class="stat-widget-one">
+                                <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                                    <div style="background:green; width:65px; text-align: center;">
+                                        <i class="fa fa-user  text-mauve"
+                                           style="font-size:50px; color: white;"/>
+                                    </div>
+                                    <div class="stat-content" style="
+                                      text-align: center; font-weight: bold;
+                                      padding-top: 20px; padding-left: 30px;">
+                                        <div class="stat_count_opp"
+                                             style="font-size: 17px;">
+                                            <div class="stat-head"
+                                                 style="font-size: 14px;">
+                                                <u>Personal Information</u>
+                                            </div>
+                                            <span id="templates">
+                                                <div id="information"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--            Attendance Tile-->
+                <div id="attendance_tile" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;" t-on-click="attendanceTileClick">
+                    <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
+                        display: flex; justify-content: center;" role="button">
                         <div class="oh-card-body"
                              style="padding: 5px 5px; float: left; width: 100%;
                           height: auto; box-sizing: border-box; margin: 0;">
@@ -22,7 +56,7 @@
                                 <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
                                     <div style="background:#ff4d94; width:65px; text-align: center;">
                                         <i class="fa fa-users text-mauve"
-                                           style="font-size:50px;"/>
+                                           style="font-size:50px; color: white;"/>
                                     </div>
                                     <div class="stat_content" style="
                                   text-align: center; font-weight: bold;
@@ -34,7 +68,7 @@
                                             </span>
                                         </div>
                                         <div class="stat-head"
-                                             style="font-size: 14px;">Employees
+                                             style="font-size: 14px;">Attendances
                                         </div>
                                     </div>
                                 </div>
@@ -42,9 +76,9 @@
                         </div>
                     </div>
                 </div>
-                <!--       Opportunity Tile-->
-                <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                     style=" overflow: hidden; padding-top: 30px;">
+                <!--       Leaves Tile-->
+                <div id="leave_tile" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+                     style=" overflow: hidden; padding-top: 30px;" t-on-click="leaveTileClick">
                     <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
                 display: flex; justify-content: center;" role="button">
                         <div class="oh-card-body"
@@ -62,7 +96,7 @@
                                         <div class="stat_count_opp"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="my_opportunity"/>
+                                                <div id="leaves"/>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -74,12 +108,12 @@
                         </div>
                     </div>
                 </div>
-                <!--            Expected Revenue -->
-                <div id="expected_revenue"
+                <!--            Project/Tasks Tile -->
+                <div id="project_tile"
                      class="col-md-4 col-sm-6 tot_tasks oh-payslip"
-                     style=" overflow: hidden; padding-top: 30px;">
+                     style=" overflow: hidden; padding-top: 30px; padding-bottom: 30px;" t-on-click="projectTileClick">
                     <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-                display: flex; justify-content: center;" role="button">
+                        display: flex; justify-content: center;" role="button">
                         <div class="oh-card-body"
                              style="padding: 5px 5px; float: left; width: 100%;
                           height: auto; box-sizing: border-box; margin: 0;">
@@ -87,7 +121,7 @@
                                 <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
                                     <div style="background:#bf80ff;; width:65px; text-align: center;">
                                         <i class="fa fa-puzzle-piece  text-mauve"
-                                           style="font-size:50px;"/>
+                                           style="font-size:50px; color: white;"/>
                                     </div>
                                     <div class="stat-content" style="
                                   text-align: center; font-weight: bold;
@@ -95,7 +129,7 @@
                                         <div class="stat_count_ex_rev"
                                              style="font-size: 17px;">
                                             <span id="templates">
-                                                <div id="revenue"/>
+                                                <div id="project"/>
                                             </span>
                                         </div>
                                         <div class="stat-head"
@@ -112,4 +146,4 @@
     </t>
 </templates>
 
-<!--fa-sitemap - icon for org chart-->
+        <!--fa-sitemap - icon for org chart-->
