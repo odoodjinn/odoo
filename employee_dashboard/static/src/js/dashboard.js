@@ -13,12 +13,18 @@ class EmployeeDashboard extends Component {
          this._fetch_data()
          this.action = useService("action")
          this.orm = useService("orm")
+//         this.user = useService("user");
+//        onWillStart(async () => {
+//            this.isUser = await this.user.hasGroup("hr.group_hr_manager");
+//        });
+//        console.log(this,'//this')
    }
    _fetch_data(){
         this.orm.call("hr.employee", "get_tiles_data", [], {}).then(function(result){
            $('#employee').append('<span>' + result.total_attendance + '</span>');
            $('#leaves').append('<span>' + result.total_leave + '</span>');
            $('#project').append('<span>' + result.total_project + '</span>');
+           $('#hierarchy').append('<span>Click here to view the Org Chart</span>');
            $('#information').append('<span>' + result.employee_info.name + '</span>',
             '<ul>','<li style="font-size: 12px;">'+ 'Job Position: ' + result.employee_info.position + '</li>',
                    '<li style="font-size: 12px;">'+ 'Department: ' + result.employee_info.department + '</li>',
@@ -67,6 +73,22 @@ class EmployeeDashboard extends Component {
             })
         })
    }
+   hierarchyTileClick(){
+        this.action.doAction({
+                type: 'ir.actions.act_window',
+                res_model: 'hr.employee',
+                views: [[false, 'hierarchy']],
+                target: 'current',
+        })
+   }
 }
+//console.log(user,'//session')
+//session.user_id.hasGroup('hr.group_hr_manager').then(function(has_group) {
+//    if(has_group) {
+//        console.log('yess')
+//    } else {
+//        console.log('noo')
+//    }
+//});
 EmployeeDashboard.template = "employee_dashboard.EmployeeDashboard";
 actionRegistry.add("employee_dashboard_tag", EmployeeDashboard);

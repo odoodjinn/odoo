@@ -22,7 +22,12 @@ class CrmLead(models.Model):
         project = employee_project.filtered(lambda x: x.user_id == user_id)
         today = fields.Datetime.today()
         experience = (today-employee_self.create_date).days/365
-
+        # groups = self.env['res.groups'].search([])
+        # user_group = groups.filtered(lambda x: x.users in user_id)
+        # for rec in user_group:
+        #     print(rec.name)
+        # print(groups,'//grp')
+        # print(user_group,'//ugrp')
         employee_info = {
             'id': employee_self.id,
             'name': employee_self.name,
