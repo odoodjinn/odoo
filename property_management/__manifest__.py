@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 {
     'name': 'Property Management',
     'version': '17.0.1.0.0',
-    'depends': ['base', 'mail', 'account', 'web'],
+    'depends': ['base', 'mail', 'account', 'web', 'website'],
     'data': [
         'security/property_security.xml',
         'security/ir.model.access.csv',
@@ -19,9 +18,9 @@
         'report/ir_actions_report.xml',
         'report/property_rental_report.xml',
         'views/website_templates.xml',
-        'views/snippets.xml',
         'views/home_templates.xml',
         'data/property_website_menu.xml',
+        'views/snippets.xml',
         'views/property_menus.xml',
     ],
     'assets': {
@@ -38,3 +37,4 @@
     'application': True,
     'license': 'LGPL-3',
 }
+
